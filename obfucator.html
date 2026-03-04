@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNUT OBFUSCATOR - Obfuscation Simple</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 40, 80, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 40, 80, 0.15) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #003366;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #4da6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            color: #99ccff;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover {
+            background: #003366;
+            color: white;
+        }
+
+        .nav-link.active {
+            background: #0066cc;
+            color: white;
+        }
+
+        /* Main content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .panel {
+            background: linear-gradient(145deg, #001a33, #000000);
+            border: 1px solid #003366;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .panel h2 {
+            color: #0066cc;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #003366;
+        }
+
+        .code-area {
+            width: 100%;
+            height: 400px;
+            background: #000000;
+            border: 1px solid #003366;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #99ccff;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+
+        .code-area:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 20px rgba(0, 102, 204, 0.3);
+        }
+
+        .options {
+            background: rgba(0, 51, 102, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .options h3 {
+            color: #99ccff;
+            margin-bottom: 15px;
+        }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #0066cc;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #0066cc;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #003366;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #99ccff;
+            border: 1px solid #003366;
+        }
+
+        .btn-secondary:hover {
+            background: #003366;
+            color: white;
+        }
+
+        .stats {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 51, 102, 0.2);
+            border-radius: 8px;
+            color: #99ccff;
+            font-size: 0.9rem;
+        }
+
+        .back-home {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .back-home:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <div class="navbar">
+            <a href="index.html" class="logo">⚡ KNUT OBFUSCATOR</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Accueil</a>
+                <a href="obfuscator.html" class="nav-link active">Obfuscation Simple</a>
+                <a href="zip-obfuscator.html" class="nav-link">Obfuscation ZIP</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Panel gauche: Code source -->
+            <div class="panel">
+                <h2>📝 Code source</h2>
+                <textarea id="inputCode" class="code-area" placeholder="Collez votre code JavaScript ici..."></textarea>
+                
+                <div class="options">
+                    <h3>Options d'obfuscation</h3>
+                    <div class="option-grid">
+                        <div class="option-item">
+                            <input type="checkbox" id="compact" checked>
+                            <label for="compact">Compact</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="selfDefending" checked>
+                            <label for="selfDefending">Self-defending</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="stringArray" checked>
+                            <label for="stringArray">String array</label>
+                        </div>
+                        <div class="option-item">
+                            <input type="checkbox" id="debugProtection">
+                            <label for="debugProtection">Debug protection</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="obfuscateCode()">🔒 Obfusquer</button>
+                    <button class="btn btn-secondary" onclick="clearCode()">🗑️ Effacer</button>
+                </div>
+
+                <div id="codeStats" class="stats">
+                    Caractères: 0 | Lignes: 0
+                </div>
+            </div>
+
+            <!-- Panel droit: Code obfusqué -->
+            <div class="panel">
+                <h2>🔒 Code obfusqué</h2>
+                <textarea id="outputCode" class="code-area" placeholder="Résultat de l'obfuscation..." readonly></textarea>
+                
+                <div class="button-group">
+                    <button class="btn btn-primary" onclick="copyToClipboard()">📋 Copier</button>
+                    <button class="btn btn-secondary" onclick="downloadCode()">💾 Télécharger</button>
+                    <button class="btn btn-secondary" onclick="showOriginal()">👁️ Voir original</button>
+                </div>
+
+                <div id="obfuscatedStats" class="stats">
+                    Caractères: 0 | Lignes: 0
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="back-home">← Retour à l'accueil</a>
+    </div>
+
+    <!-- Modal pour voir l'original -->
+    <div id="originalModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 1000; justify-content: center; align-items: center;">
+        <div style="background: #001a33; border: 1px solid #0066cc; border-radius: 15px; padding: 30px; max-width: 800px; width: 90%; max-height: 80vh; overflow-y: auto;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 style="color: #0066cc;">📜 Code original</h2>
+                <button onclick="closeModal()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer;">&times;</button>
+            </div>
+            <pre id="originalCodeDisplay" style="background: #000000; padding: 15px; border-radius: 10px; color: #99ccff; white-space: pre-wrap;"></pre>
+        </div>
+    </div>
+
+    <script>
+        let originalCode = '';
+
+        function updateStats(textareaId, statsId) {
+            const textarea = document.getElementById(textareaId);
+            const stats = document.getElementById(statsId);
+            const text = textarea.value;
+            stats.innerHTML = `Caractères: ${text.length} | Lignes: ${text.split('\n').length}`;
+        }
+
+        function obfuscateCode() {
+            const input = document.getElementById('inputCode');
+            const output = document.getElementById('outputCode');
+            
+            if (!input.value.trim()) {
+                alert('Veuillez entrer du code');
+                return;
+            }
+            
+            originalCode = input.value;
+            
+            // Simulation d'obfuscation
+            let obfuscated = input.value
+                .replace(/\/\/.*$/gm, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+            
+            output.value = obfuscated;
+            
+            updateStats('inputCode', 'codeStats');
+            updateStats('outputCode', 'obfuscatedStats');
+        }
+
+        function clearCode() {
+            document.getElementById('inputCode').value = '';
+            document.getElementById('outputCode').value = '';
+            originalCode = '';
+            updateStats('inputCode', 'codeStats');
+            updateStats('outputCode', 'obfuscatedStats');
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById('outputCode');
+            output.select();
+            document.execCommand('copy');
+            alert('Code copié !');
+        }
+
+        function downloadCode() {
+            const output = document.getElementById('outputCode');
+            const blob = new Blob([output.value], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'obfuscated.js';
+            a.click();
+        }
+
+        function showOriginal() {
+            if (!originalCode) {
+                alert('Aucun code original');
+                return;
+            }
+            document.getElementById('originalCodeDisplay').textContent = originalCode;
+            document.getElementById('originalModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('originalModal').style.display = 'none';
+        }
+
+        document.getElementById('inputCode').addEventListener('input', () => updateStats('inputCode', 'codeStats'));
+    </script>
+</body>
+</html>

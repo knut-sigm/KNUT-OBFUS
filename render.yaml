@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: knut-obfuscator
+    runtime: node
+    repo: https://github.com/votre-compte/knut-obfuscator
+    plan: free
+    region: oregon
+    branch: main
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/status
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MAX_FILE_SIZE
+        value: 104857600
+    autoDeploy: true
+    domains:
+      - knut-obfuscator.onrender.com
