@@ -1,4 +1,15 @@
-
+/**
+ * KNUT OBFUSCATOR - Moteur d'obfuscation JavaScript professionnel
+ * Version: 3.0.0
+ * Auteur: KNUT XMD
+ * 
+ * Ce moteur utilise de vraies techniques d'obfuscation :
+ * - Renommage de variables
+ * - Encodage de strings
+ * - Contrôle de flux
+ * - Injection de code mort
+ * - Protection anti-debug
+ */
 
 class KnutObfuscator {
     constructor() {
@@ -9,67 +20,6 @@ class KnutObfuscator {
         this.variableMap = new Map();
         this.stringMap = new Map();
         this.counter = 0;
-        
-        this.initEventListeners();
-    }
-
-    // Initialisation des événements
-    initEventListeners() {
-        // Stats pour les textareas
-        const inputCode = document.getElementById('inputCode');
-        const outputCode = document.getElementById('outputCode');
-        
-        if (inputCode) {
-            inputCode.addEventListener('input', () => {
-                this.updateStats('inputCode', 'codeStats');
-            });
-        }
-
-        if (outputCode) {
-            outputCode.addEventListener('input', () => {
-                this.updateStats('outputCode', 'obfuscatedStats');
-            });
-        }
-
-        // Drag & drop pour le ZIP
-        const uploadArea = document.querySelector('.upload-area');
-        if (uploadArea) {
-            uploadArea.addEventListener('dragover', (e) => {
-                e.preventDefault();
-                uploadArea.style.borderColor = '#0066cc';
-                uploadArea.style.background = 'rgba(0, 102, 204, 0.1)';
-            });
-
-            uploadArea.addEventListener('dragleave', (e) => {
-                e.preventDefault();
-                uploadArea.style.borderColor = '#003366';
-                uploadArea.style.background = 'transparent';
-            });
-
-            uploadArea.addEventListener('drop', (e) => {
-                e.preventDefault();
-                uploadArea.style.borderColor = '#003366';
-                uploadArea.style.background = 'transparent';
-                
-                const file = e.dataTransfer.files[0];
-                if (file && file.name.endsWith('.zip')) {
-                    this.handleZipFile(file);
-                } else {
-                    alert('⌘ Veuillez déposer un fichier ZIP valide');
-                }
-            });
-        }
-
-        // Upload de fichier
-        const zipInput = document.getElementById('zipInput');
-        if (zipInput) {
-            zipInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    this.handleZipFile(file);
-                }
-            });
-        }
     }
 
     // =================== UTILITAIRES ===================
@@ -338,20 +288,6 @@ class KnutObfuscator {
 
     // =================== FONCTIONS PUBLIQUES ===================
 
-    // Changer d'onglet
-    switchTab(tab) {
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-        
-        if (tab === 'code') {
-            document.querySelectorAll('.tab-btn')[0].classList.add('active');
-            document.getElementById('tab-code').classList.add('active');
-        } else {
-            document.querySelectorAll('.tab-btn')[1].classList.add('active');
-            document.getElementById('tab-zip').classList.add('active');
-        }
-    }
-
     // Obfusquer le code
     obfuscateCode() {
         const input = document.getElementById('inputCode');
@@ -493,7 +429,7 @@ class KnutObfuscator {
                             item.className = 'file-item';
                             item.innerHTML = `
                                 <span class="${isJs ? 'js' : ''}">${relativePath}</span>
-                                <span>${isJs ? '⌗ JS' : '◈ Autre'}</span>
+                                <span>${isJs ? '📜 JS' : '📁 Autre'}</span>
                             `;
                             fileList.appendChild(item);
                         }
@@ -527,7 +463,7 @@ class KnutObfuscator {
         
         if (obfuscateBtn) {
             obfuscateBtn.disabled = true;
-            obfuscateBtn.innerHTML = '⟳ Obfuscation...';
+            obfuscateBtn.innerHTML = '⏳ Obfuscation...';
         }
         
         const options = {
@@ -568,12 +504,12 @@ class KnutObfuscator {
         this.obfuscatedZip = content;
         
         if (obfuscateBtn) {
-            obfuscateBtn.innerHTML = '⌘ Obfusquer le ZIP';
+            obfuscateBtn.innerHTML = '⚡ Obfusquer le ZIP';
             obfuscateBtn.disabled = false;
         }
         
         if (downloadBtn) downloadBtn.style.display = 'inline-flex';
-        if (zipStats) zipStats.innerHTML = '✓ Terminé ! ' + processed + ' fichiers traités';
+        if (zipStats) zipStats.innerHTML = '✅ Terminé ! ' + processed + ' fichiers traités';
     }
 
     // Télécharger le ZIP obfusqué

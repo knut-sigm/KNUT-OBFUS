@@ -108,7 +108,7 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            min-height: 70vh;
+            min-height: 60vh;
         }
 
         .profile-image-wrapper {
@@ -219,6 +219,97 @@
 
         .big-action-button .icon {
             font-size: 2rem;
+        }
+
+        /* ========== RUBRIQUE D'AIDE ========== */
+        .help-section {
+            margin-top: 80px;
+            padding: 40px 20px;
+            border-top: 1px solid #003366;
+        }
+
+        .help-title {
+            text-align: center;
+            font-size: 2rem;
+            color: #0066cc;
+            margin-bottom: 40px;
+        }
+
+        .help-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .help-card {
+            background: linear-gradient(145deg, #001a33, #000000);
+            border: 1px solid #003366;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .help-card:hover {
+            transform: translateY(-5px);
+            border-color: #0066cc;
+            box-shadow: 0 10px 30px rgba(0, 102, 204, 0.2);
+        }
+
+        .help-icon {
+            font-size: 2.5rem;
+            color: #0066cc;
+            margin-bottom: 20px;
+        }
+
+        .help-card h3 {
+            color: #0066cc;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .help-card p {
+            color: #99ccff;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .help-note {
+            background: rgba(0, 102, 204, 0.1);
+            border-left: 3px solid #0066cc;
+            padding: 15px;
+            border-radius: 5px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .faq-item {
+            text-align: left;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #003366;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .faq-question {
+            color: #0066cc;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .faq-answer {
+            color: #99ccff;
+            font-size: 0.9rem;
+            line-height: 1.5;
         }
 
         /* ========== PAGE CHOIX ========== */
@@ -625,6 +716,11 @@
             .obfuscation-layout {
                 grid-template-columns: 1fr;
             }
+
+            .help-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
         }
     </style>
 </head>
@@ -671,6 +767,102 @@
                         COMMENCER L'OBFUSCATION
                         <span class="icon">⚡</span>
                     </button>
+                </div>
+            </div>
+
+            <!-- RUBRIQUE D'AIDE ET D'EXPLICATION -->
+            <div class="help-section">
+                <h2 class="help-title">❓ AIDE & EXPLICATIONS</h2>
+                
+                <div class="help-grid">
+                    <!-- Carte 1 : Qu'est-ce que l'obfuscation ? -->
+                    <div class="help-card">
+                        <div class="help-icon">🔒</div>
+                        <h3>Qu'est-ce que l'obfuscation ?</h3>
+                        <p>L'obfuscation est une technique qui transforme votre code JavaScript en une version difficile à lire pour les humains, tout en conservant son fonctionnement exact. C'est comme un langage secret que seul l'ordinateur comprend.</p>
+                        <div class="help-note">
+                            <strong>Exemple :</strong> Une variable "nomUtilisateur" devient "_0x4f2a8b"
+                        </div>
+                    </div>
+
+                    <!-- Carte 2 : Pourquoi obfusquer ? -->
+                    <div class="help-card">
+                        <div class="help-icon">🛡️</div>
+                        <h3>Pourquoi obfusquer ?</h3>
+                        <p>Protégez votre code contre :</p>
+                        <ul style="color: #99ccff; text-align: left; margin-top: 10px; padding-left: 20px;">
+                            <li>✓ Le vol de propriété intellectuelle</li>
+                            <li>✓ La copie non autorisée</li>
+                            <li>✓ L'ingénierie inverse</li>
+                            <li>✓ Le détournement de code</li>
+                        </ul>
+                    </div>
+
+                    <!-- Carte 3 : Comment utiliser ? -->
+                    <div class="help-card">
+                        <div class="help-icon">📚</div>
+                        <h3>Comment utiliser ?</h3>
+                        <div class="faq-item">
+                            <div class="faq-question">📄 Fichier simple :</div>
+                            <div class="faq-answer">Collez votre code ou chargez un fichier .js, choisissez les options, cliquez sur "Obfusquer".</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">📦 Fichier ZIP :</div>
+                            <div class="faq-answer">Chargez un projet complet, tous les fichiers .js seront obfusqués automatiquement.</div>
+                        </div>
+                    </div>
+
+                    <!-- Carte 4 : Options disponibles -->
+                    <div class="help-card">
+                        <div class="help-icon">⚙️</div>
+                        <h3>Options d'obfuscation</h3>
+                        <div class="faq-item">
+                            <div class="faq-question">Compact :</div>
+                            <div class="faq-answer">Supprime les espaces, retours à la ligne et commentaires.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Self-defending :</div>
+                            <div class="faq-answer">Protège contre la modification du code obfusqué.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">String array :</div>
+                            <div class="faq-answer">Regroupe toutes les chaînes dans un tableau encodé.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Debug protection :</div>
+                            <div class="faq-answer">Empêche le débogage du code.</div>
+                        </div>
+                    </div>
+
+                    <!-- Carte 5 : Bonnes pratiques -->
+                    <div class="help-card">
+                        <div class="help-icon">✅</div>
+                        <h3>Bonnes pratiques</h3>
+                        <ul style="color: #99ccff; text-align: left; margin-top: 10px; padding-left: 20px;">
+                            <li>✓ Testez toujours le code obfusqué</li>
+                            <li>✓ Gardez une copie du code original</li>
+                            <li>✓ Utilisez "Compact" pour les scripts lourds</li>
+                            <li>✓ Activez "Self-defending" pour les bots</li>
+                        </ul>
+                    </div>
+
+                    <!-- Carte 6 : FAQ -->
+                    <div class="help-card">
+                        <div class="help-icon">❓</div>
+                        <h3>Questions fréquentes</h3>
+                        <div class="faq-item">
+                            <div class="faq-question">Le code fonctionnera-t-il toujours ?</div>
+                            <div class="faq-answer">Oui, l'obfuscation ne modifie pas la logique, seulement la lisibilité.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Puis-je désobfusquer ?</div>
+                            <div class="faq-answer">C'est très difficile, c'est le but ! Gardez toujours l'original.</div>
+                        </div>
+                        <div class="faq-item">
+                            <div class="faq-question">Quelle option choisir ?</div>
+                            <div class="faq-answer">Pour un bot : toutes les options. Pour un script simple : Compact suffit.</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -750,8 +942,8 @@
                     </div>
 
                     <div class="button-group">
-                        <button class="btn btn-primary" onclick="obfuscateCode()">⚡ Obfusquer</button>
-                        <button class="btn btn-secondary" onclick="clearCode()">🗑️ Effacer</button>
+                        <button class="btn btn-primary" onclick="window.obfuscator.obfuscateCode()">⚡ Obfusquer</button>
+                        <button class="btn btn-secondary" onclick="window.obfuscator.clearCode()">🗑️ Effacer</button>
                     </div>
 
                     <div id="codeStats" class="stats">
@@ -765,9 +957,9 @@
                     <textarea id="outputCode" class="code-area" placeholder="Résultat de l'obfuscation..." readonly></textarea>
                     
                     <div class="button-group">
-                        <button class="btn btn-primary" onclick="copyToClipboard()">📋 Copier</button>
-                        <button class="btn btn-secondary" onclick="downloadCode()">⬇ Télécharger</button>
-                        <button class="btn btn-secondary" onclick="showOriginal()">👁️ Voir original</button>
+                        <button class="btn btn-primary" onclick="window.obfuscator.copyToClipboard()">📋 Copier</button>
+                        <button class="btn btn-secondary" onclick="window.obfuscator.downloadCode()">⬇ Télécharger</button>
+                        <button class="btn btn-secondary" onclick="window.obfuscator.showOriginal()">👁️ Voir original</button>
                     </div>
 
                     <div id="obfuscatedStats" class="stats">
@@ -824,10 +1016,10 @@
                 </div>
 
                 <div class="button-group">
-                    <button class="btn btn-primary" onclick="obfuscateZip()" id="obfuscateZipBtn">
+                    <button class="btn btn-primary" onclick="window.obfuscator.obfuscateZip()" id="obfuscateZipBtn">
                         ⚡ Obfusquer le ZIP
                     </button>
-                    <button class="btn btn-secondary" onclick="downloadZip()" id="downloadZipBtn" style="display: none;">
+                    <button class="btn btn-secondary" onclick="window.obfuscator.downloadZip()" id="downloadZipBtn" style="display: none;">
                         ⬇ Télécharger ZIP
                     </button>
                 </div>
@@ -843,7 +1035,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h2>📜 Code original</h2>
-                    <button class="modal-close" onclick="closeModal()">✕</button>
+                    <button class="modal-close" onclick="window.obfuscator.closeModal()">✕</button>
                 </div>
                 <pre id="originalCodeDisplay" class="original-code"></pre>
             </div>
@@ -857,14 +1049,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="obfuscation.js"></script>
     
     <script>
-        // ========== VARIABLES GLOBALES ==========
-        let originalCode = '';
-        let currentZip = null;
-        let zipFiles = [];
-        let obfuscatedZip = null;
-
         // ========== NAVIGATION ==========
         function showPage(page) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -880,75 +1067,6 @@
             else if (page === 'zip') links[3].classList.add('active');
         }
 
-        // ========== FONCTIONS OBFUSCATION SIMPLE ==========
-        function updateStats(textareaId, statsId) {
-            const textarea = document.getElementById(textareaId);
-            const stats = document.getElementById(statsId);
-            const text = textarea.value;
-            stats.innerHTML = `Caractères: ${text.length} | Lignes: ${text.split('\n').length}`;
-        }
-
-        function obfuscateCode() {
-            const input = document.getElementById('inputCode');
-            const output = document.getElementById('outputCode');
-            
-            if (!input.value.trim()) {
-                alert('Veuillez entrer du code à obfusquer');
-                return;
-            }
-            
-            originalCode = input.value;
-            
-            // Simulation d'obfuscation
-            let obfuscated = input.value
-                .replace(/\/\/.*$/gm, '')
-                .replace(/\s+/g, ' ')
-                .trim();
-            
-            output.value = obfuscated;
-            
-            updateStats('inputCode', 'codeStats');
-            updateStats('outputCode', 'obfuscatedStats');
-        }
-
-        function clearCode() {
-            document.getElementById('inputCode').value = '';
-            document.getElementById('outputCode').value = '';
-            originalCode = '';
-            updateStats('inputCode', 'codeStats');
-            updateStats('outputCode', 'obfuscatedStats');
-        }
-
-        function copyToClipboard() {
-            const output = document.getElementById('outputCode');
-            output.select();
-            document.execCommand('copy');
-            alert('Code copié !');
-        }
-
-        function downloadCode() {
-            const output = document.getElementById('outputCode');
-            const blob = new Blob([output.value], { type: 'text/javascript' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'obfuscated.js';
-            a.click();
-        }
-
-        function showOriginal() {
-            if (!originalCode) {
-                alert('Aucun code original');
-                return;
-            }
-            document.getElementById('originalCodeDisplay').textContent = originalCode;
-            document.getElementById('originalModal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('originalModal').classList.remove('active');
-        }
-
         // ========== GESTION UPLOAD FICHIER ==========
         document.getElementById('fileInput')?.addEventListener('change', function(e) {
             const file = e.target.files[0];
@@ -956,130 +1074,23 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     document.getElementById('inputCode').value = e.target.result;
-                    updateStats('inputCode', 'codeStats');
+                    if (window.obfuscator) {
+                        window.obfuscator.updateStats('inputCode', 'codeStats');
+                    }
                 };
                 reader.readAsText(file);
             }
         });
 
-        document.getElementById('inputCode')?.addEventListener('input', () => updateStats('inputCode', 'codeStats'));
-
         // ========== GESTION ZIP ==========
         document.getElementById('zipInput')?.addEventListener('change', function(e) {
             const file = e.target.files[0];
-            if (file) handleZipFile(file);
+            if (file && window.obfuscator) {
+                window.obfuscator.handleZipFile(file);
+            }
         });
 
-        async function handleZipFile(file) {
-            document.getElementById('fileName').textContent = file.name;
-            document.getElementById('fileSize').textContent = (file.size / 1024).toFixed(2) + ' KB';
-            document.getElementById('fileInfo').style.display = 'block';
-            
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                try {
-                    const zip = await JSZip.loadAsync(e.target.result);
-                    currentZip = zip;
-                    zipFiles = [];
-                    
-                    const fileList = document.getElementById('fileList');
-                    fileList.innerHTML = '';
-                    
-                    let jsCount = 0;
-                    
-                    zip.forEach((relativePath, zipEntry) => {
-                        if (!zipEntry.dir) {
-                            const isJs = relativePath.endsWith('.js');
-                            if (isJs) jsCount++;
-                            
-                            zipFiles.push({
-                                path: relativePath,
-                                isJs: isJs
-                            });
-                            
-                            const item = document.createElement('div');
-                            item.className = 'file-item';
-                            item.innerHTML = `
-                                <span class="${isJs ? 'js' : ''}">${relativePath}</span>
-                                <span>${isJs ? '📜 JS' : '📁 Autre'}</span>
-                            `;
-                            fileList.appendChild(item);
-                        }
-                    });
-                    
-                    document.getElementById('jsCount').textContent = jsCount;
-                    document.getElementById('zipStats').innerHTML = `${jsCount} fichier(s) JS trouvé(s) sur ${zipFiles.length} total`;
-                    document.getElementById('obfuscateZipBtn').disabled = false;
-                    
-                } catch (error) {
-                    alert('Erreur ZIP: ' + error.message);
-                }
-            };
-            reader.readAsArrayBuffer(file);
-        }
-
-        async function obfuscateZip() {
-            if (!currentZip) {
-                alert('Veuillez charger un ZIP');
-                return;
-            }
-            
-            const progressFill = document.getElementById('progressFill');
-            const obfuscateBtn = document.getElementById('obfuscateZipBtn');
-            
-            obfuscateBtn.disabled = true;
-            obfuscateBtn.innerHTML = '⏳ Obfuscation...';
-            
-            const options = {
-                compact: document.getElementById('zipCompact').checked,
-                selfDefending: document.getElementById('zipSelfDefending').checked,
-                stringArray: document.getElementById('zipStringArray').checked
-            };
-            
-            const newZip = new JSZip();
-            let processed = 0;
-            
-            for (const file of zipFiles) {
-                try {
-                    const content = await currentZip.file(file.path).async('string');
-                    
-                    if (file.isJs) {
-                        // Simulation d'obfuscation
-                        let obfuscated = content
-                            .replace(/\/\/.*$/gm, '')
-                            .replace(/\s+/g, ' ')
-                            .trim();
-                        newZip.file(file.path, obfuscated);
-                    } else {
-                        newZip.file(file.path, content);
-                    }
-                    
-                    processed++;
-                    progressFill.style.width = (processed / zipFiles.length * 100) + '%';
-                } catch (e) {
-                    console.error('Erreur sur', file.path, e);
-                }
-            }
-            
-            const content = await newZip.generateAsync({ type: 'blob' });
-            obfuscatedZip = content;
-            
-            obfuscateBtn.innerHTML = '⚡ Obfusquer le ZIP';
-            obfuscateBtn.disabled = false;
-            
-            document.getElementById('downloadZipBtn').style.display = 'inline-flex';
-            document.getElementById('zipStats').innerHTML = '✅ Terminé ! ' + processed + ' fichiers traités';
-        }
-
-        function downloadZip() {
-            if (!obfuscatedZip) {
-                alert('Aucun ZIP disponible');
-                return;
-            }
-            saveAs(obfuscatedZip, 'obfuscated.zip');
-        }
-
-        // Gestion de l'image par défaut
+        // ========== GESTION DE L'IMAGE ==========
         document.addEventListener('DOMContentLoaded', function() {
             const img = document.querySelector('.profile-image img');
             if (img) {

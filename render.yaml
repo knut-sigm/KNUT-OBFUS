@@ -2,7 +2,7 @@ services:
   - type: web
     name: knut-obfuscator
     runtime: node
-    repo: https://github.com/knut-sigm/KNUT-OBFUS.git
+    repo: https://github.com/votre-compte/knut-obfuscator
     plan: free
     region: oregon
     branch: main
