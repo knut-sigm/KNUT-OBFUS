@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KNUT OBFUSCATOR - Protection de Code</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #000000;
+            color: #ffffff;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* Effet de grille marine */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 40, 80, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 40, 80, 0.15) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ========== NAVIGATION ========== */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #003366;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #ffffff, #4da6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            color: #99ccff;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .nav-link:hover {
+            background: #003366;
+            color: white;
+        }
+
+        .nav-link.active {
+            background: #0066cc;
+            color: white;
+        }
+
+        /* ========== PAGES ========== */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* ========== PAGE ACCUEIL ========== */
+        .home-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 60vh;
+        }
+
+        .profile-image-wrapper {
+            position: relative;
+            margin-bottom: 30px;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid #0066cc;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 102, 204, 0.5);
+            background: #001a33;
+            margin: 0 auto;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-image-placeholder {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #003366, #001a33);
+            color: #0066cc;
+            font-size: 4rem;
+            font-weight: bold;
+        }
+
+        .verified-badge {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 30px;
+            height: 30px;
+            background: #0066cc;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #000000;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .welcome-title .highlight {
+            color: #0066cc;
+            display: block;
+            font-size: 3rem;
+            margin-top: 5px;
+        }
+
+        .welcome-message {
+            color: #99ccff;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* BOUTON UNIQUE CENTRÉ - COMMENCEZ */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .big-action-button {
+            background: linear-gradient(135deg, #0066cc, #003366);
+            color: white;
+            border: none;
+            padding: 20px 50px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            border: 2px solid #0066cc;
+            min-width: 400px;
+            max-width: 100%;
+        }
+
+        .big-action-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 102, 204, 0.4);
+            background: linear-gradient(135deg, #003366, #0066cc);
+        }
+
+        .big-action-button .icon {
+            font-size: 2rem;
+        }
+
+        /* ========== PAGE CHOIX OBFUSCATION/DÉSOBFUSCATION ========== */
+        .choice-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 70vh;
+            text-align: center;
+        }
+
+        .choice-title {
+            font-size: 2.5rem;
+            color: #0066cc;
+            margin-bottom: 20px;
+        }
+
+        .choice-subtitle {
+            color: #99ccff;
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .choice-card {
+            background: linear-gradient(145deg, #001a33, #000000);
+            border: 1px solid #003366;
+            border-radius: 20px;
+            padding: 40px 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .choice-card:hover {
+            transform: translateY(-10px);
+            border-color: #0066cc;
+            box-shadow: 0 20px 40px rgba(0, 102, 204, 0.3);
+        }
+
+        .choice-icon {
+            font-size: 3rem;
+            color: #0066cc;
+            margin-bottom: 20px;
+        }
+
+        .choice-card h3 {
+            font-size: 1.8rem;
+            color: #0066cc;
+            margin-bottom: 15px;
+        }
+
+        .choice-description {
+            color: #99ccff;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            min-height: 80px;
+        }
+
+        .choice-badge {
+            display: inline-block;
+            background: #0066cc;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        /* ========== PAGE OBFUSCATION ========== */
+        .obfuscation-section {
+            background: linear-gradient(145deg, #001a33, #000000);
+            border: 1px solid #003366;
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        .obfuscation-title {
+            font-size: 2rem;
+            color: #0066cc;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .obfuscation-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .obfuscation-panel {
+            background: rgba(0, 51, 102, 0.3);
+            border: 1px solid #003366;
+            border-radius: 20px;
+            padding: 25px;
+        }
+
+        .obfuscation-panel h4 {
+            color: #0066cc;
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #003366;
+        }
+
+        .obfuscation-textarea {
+            width: 100%;
+            height: 300px;
+            background: #000000;
+            border: 1px solid #003366;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            color: #99ccff;
+            resize: vertical;
+            margin-bottom: 20px;
+        }
+
+        .obfuscation-textarea:focus {
+            outline: none;
+            border-color: #0066cc;
+            box-shadow: 0 0 20px rgba(0, 102, 204, 0.3);
+        }
+
+        .obfuscation-options {
+            background: rgba(0, 51, 102, 0.3);
+            border: 1px solid #003366;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .obfuscation-options h5 {
+            color: #99ccff;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .obfuscation-option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .obfuscation-option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .obfuscation-option-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #0066cc;
+        }
+
+        .obfuscation-button-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .obfuscation-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .obfuscation-btn-primary {
+            background: #0066cc;
+            color: white;
+        }
+
+        .obfuscation-btn-primary:hover {
+            background: #003366;
+            transform: translateY(-2px);
+        }
+
+        .obfuscation-btn-secondary {
+            background: transparent;
+            color: #99ccff;
+            border: 1px solid #003366;
+        }
+
+        .obfuscation-btn-secondary:hover {
+            background: #003366;
+            color: white;
+        }
+
+        .obfuscation-stats {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 51, 102, 0.2);
+            border-radius: 8px;
+            color: #99ccff;
+            font-size: 0.9rem;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #003366;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+            transition: all 0.3s;
+        }
+
+        .file-upload-area:hover {
+            border-color: #0066cc;
+            background: rgba(0, 102, 204, 0.05);
+        }
+
+        /* ========== PAGE DÉSOBFUSCATION ========== */
+        .deobfuscation-section {
+            background: linear-gradient(145deg, #001a33, #000000);
+            border: 1px solid #003366;
+            border-radius: 30px;
+            padding: 40px;
+            margin-bottom: 50px;
+        }
+
+        .deobfuscation-title {
+            font-size: 2rem;
+            color: #0066cc;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .deobfuscation-warning {
+            background: rgba(255, 0, 0, 0.1);
+            border-left: 4px solid #ff4444;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: #99ccff;
+            font-size: 0.95rem;
+        }
+
+        .deobfuscation-info {
+            background: rgba(0, 102, 204, 0.1);
+            border-left: 4px solid #0066cc;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            color: #99ccff;
+        }
+
+        /* ========== BOUTON RETOUR ========== */
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #0066cc;
+            cursor: pointer;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            padding: 10px 20px;
+            border: 1px solid #003366;
+            border-radius: 30px;
+        }
+
+        .back-button:hover {
+            background: #003366;
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        /* ========== MODAL ========== */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #001a33;
+            border: 1px solid #0066cc;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #003366;
+        }
+
+        .modal-header h2 {
+            color: #0066cc;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #99ccff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .original-code {
+            background: #000000;
+            padding: 15px;
+            border-radius: 10px;
+            color: #99ccff;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            border-top: 1px solid #003366;
+            color: #99ccff;
+            margin-top: 50px;
+        }
+
+        .footer a {
+            color: #0066cc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer a:hover {
+            color: #25D366;
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .welcome-title {
+                font-size: 2rem;
+            }
+
+            .welcome-title .highlight {
+                font-size: 2.2rem;
+            }
+
+            .big-action-button {
+                padding: 15px 30px;
+                font-size: 1.2rem;
+                min-width: 300px;
+            }
+
+            .choice-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+                padding: 0 20px;
+            }
+
+            .obfuscation-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .obfuscation-option-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation -->
+        <div class="navbar">
+            <div class="logo" onclick="showPage('home')">⚡ KNUT OBFUSCATOR</div>
+            <div class="nav-links">
+                <div class="nav-link active" onclick="showPage('home')">⌂ Accueil</div>
+                <div class="nav-link" onclick="showPage('formations')">📚 Formations</div>
+                <div class="nav-link" onclick="showPage('ventes')">🛒 Ventes</div>
+                <div class="nav-link" onclick="showPage('securite')">🛡️ Sécurité</div>
+            </div>
+        </div>
+
+        <!-- PAGE ACCUEIL -->
+        <div id="home-page" class="page active">
+            <div class="home-container">
+                <!-- Photo de profil centrée -->
+                <div class="profile-image-wrapper">
+                    <div class="profile-image">
+                        <img src="https://files.catbox.moe/7j7cdo.jpg" 
+                             alt="Profil KNUT"
+                             onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'profile-image-placeholder\'>K</div>'">
+                    </div>
+                    <div class="verified-badge">✓</div>
+                </div>
+
+                <!-- Texte de bienvenue centré -->
+                <div class="welcome-title">
+                    BIENVENUE SUR
+                    <span class="highlight">KNUT OBFUSCATOR</span>
+                </div>
+                
+                <div class="welcome-message">
+                    Sécurisez votre code JavaScript avec la puissance de l'obfuscation moderne.
+                </div>
+
+                <!-- BOUTON COMMENCEZ -->
+                <div class="action-buttons">
+                    <button class="big-action-button" onclick="showPage('choose')">
+                        <span class="icon">⚡</span>
+                        COMMENCEZ
+                        <span class="icon">⚡</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE DE CHOIX OBFUSCATION/DÉSOBFUSCATION -->
+        <div id="choose-page" class="page">
+            <div class="back-button" onclick="showPage('home')">
+                ← Retour à l'accueil
+            </div>
+            <div class="choice-container">
+                <h2 class="choice-title">QUE SOUHAITEZ-VOUS FAIRE ?</h2>
+                <p class="choice-subtitle">Choisissez l'outil qui correspond à vos besoins</p>
+                
+                <div class="choice-grid">
+                    <!-- Carte Obfuscation -->
+                    <div class="choice-card" onclick="showPage('obfuscation')">
+                        <div class="choice-icon">🔒</div>
+                        <h3>OBFUSCATION</h3>
+                        <p class="choice-description">
+                            Protégez votre code JavaScript en le rendant illisible pour les humains.
+                            Idéal pour sécuriser vos scripts et bots.
+                        </p>
+                        <span class="choice-badge">+6 options</span>
+                    </div>
+
+                    <!-- Carte Désobfuscation -->
+                    <div class="choice-card" onclick="showPage('deobfuscation')">
+                        <div class="choice-icon">🔓</div>
+                        <h3>DÉSOBFUSCATION</h3>
+                        <p class="choice-description">
+                            Analysez et comprenez du code obfusqué. Retrouvez la logique originale
+                            pour apprendre ou déboguer.
+                        </p>
+                        <span class="choice-badge">+6 options</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE OBFUSCATION -->
+        <div id="obfuscation-page" class="page">
+            <div class="back-button" onclick="showPage('choose')">
+                ← Retour au choix
+            </div>
+
+            <div class="obfuscation-section">
+                <h3 class="obfuscation-title">🔒 OBFUSCATION DE CODE</h3>
+
+                <div class="obfuscation-layout">
+                    <!-- Panel gauche: Code source -->
+                    <div class="obfuscation-panel">
+                        <h4>📄 Code source</h4>
+                        
+                        <div class="file-upload-area" onclick="document.getElementById('obfuscateFileInput').click()">
+                            📂 Cliquez pour charger un fichier JavaScript (.js)
+                        </div>
+                        <input type="file" id="obfuscateFileInput" accept=".js" style="display: none;">
+
+                        <textarea id="obfuscateInput" class="obfuscation-textarea" placeholder="Collez votre code JavaScript ici..."></textarea>
+                        
+                        <div class="obfuscation-options">
+                            <h5>⚙️ Options d'obfuscation</h5>
+                            <div class="obfuscation-option-grid">
+                                <div class="obfuscation-option-item">
+                                    <input type="checkbox" id="compact" checked>
+                                    <label for="compact">Compact</label>
+                                </div>
+                                <div class="obfuscation-option-item">
+                                    <input type="checkbox" id="selfDefending" checked>
+                                    <label for="selfDefending">Self-defending</label>
+                                </div>
+                                <div class="obfuscation-option-item">
+                                    <input type="checkbox" id="stringArray" checked>
+                                    <label for="stringArray">String array</label>
+                                </div>
+                                <div class="obfuscation-option-item">
+                                    <input type="checkbox" id="debugProtection">
+                                    <label for="debugProtection">Debug protection</label>
+                                </div>
+                                <div class="obfuscation-option-item">
+                                    <input type="checkbox" id="disableConsole">
+                                    <label for="disableConsole">Disable console</label>
+                                </div>
+                                <div class="obfuscation-option-item">
+                                    <input type="checkbox" id="unicodeEscape">
+                                    <label for="unicodeEscape">Unicode escape</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="obfuscation-button-group">
+                            <button class="obfuscation-btn obfuscation-btn-primary" onclick="obfuscateCode()">⚡ Obfusquer</button>
+                            <button class="obfuscation-btn obfuscation-btn-secondary" onclick="clearObfuscate()">🗑️ Effacer</button>
+                        </div>
+
+                        <div id="obfuscateInputStats" class="obfuscation-stats">
+                            Caractères: 0 | Lignes: 0
+                        </div>
+                    </div>
+
+                    <!-- Panel droit: Code obfusqué -->
+                    <div class="obfuscation-panel">
+                        <h4>🔒 Code obfusqué</h4>
+                        <textarea id="obfuscateOutput" class="obfuscation-textarea" placeholder="Résultat de l'obfuscation..." readonly></textarea>
+                        
+                        <div class="obfuscation-button-group">
+                            <button class="obfuscation-btn obfuscation-btn-primary" onclick="copyObfuscated()">📋 Copier</button>
+                            <button class="obfuscation-btn obfuscation-btn-secondary" onclick="downloadObfuscated()">⬇ Télécharger</button>
+                            <button class="obfuscation-btn obfuscation-btn-secondary" onclick="showOriginalObfuscate()">👁️ Voir original</button>
+                        </div>
+
+                        <div id="obfuscateOutputStats" class="obfuscation-stats">
+                            Caractères: 0 | Lignes: 0
+                        </div>
+                    </div>
+                </div>
+
+                <div class="deobfuscation-info">
+                    <strong>ℹ️ À savoir :</strong> L'obfuscation rend votre code illisible mais ne modifie pas son fonctionnement. Parfait pour protéger vos scripts sensibles.
+                </div>
+            </div>
+        </div>
+
+        <!-- PAGE DÉSOBFUSCATION -->
+        <div id="deobfuscation-page" class="page">
+            <div class="back-button" onclick="showPage('choose')">
+                ← Retour au choix
+            </div>
+
+            <div class="deobfuscation-section">
+                <h3 class="deobfuscation-title">🔓 DÉSOBFUSCATION DE CODE</h3>
+
+                <div class="deobfuscation-warning">
+                    ⚠️ La désobfuscation parfaite n'existe pas. Certaines techniques avancées peuvent résister.
+                </div>
+
+                <div class="obfuscation-layout">
+                    <!-- Panel gauche: Code obfusqué -->
+                    <div class="obfuscation-panel">
+                        <h4>🔒 Code obfusqué</h4>
+                        
+                        <div class="file-upload-area" onclick="document.getElementById('deobfuscateFileInput').click()">
+                            📂 Cliquez pour charger un fichier JavaScript (.js)
+                        </div>
+                        <input type="file" id="deobfuscateFileInput" accept=".js" style="display: none;">
+
+                        <textarea id="deobfuscateInput" class="obfuscation-textarea" placeholder="Collez le code obfusqué ici..."></textarea>
+                        
+                        <div class="obfuscation-options">
+                            <h5>⚙️ Options de désobfuscation</h5>
+                            <div class="obfuscation-option-grid">
+                                <div class="obfuscation-option-item">
+                                    <input type="checkbox" id="beautify" checked>
+                                    <label for="beautify">Beautifier</label>
+                                </div>
+                                <div class="obfuscation-option-item">
+                                    <input type="checkbox" id="decodeStrings" checked>
+                                    <label for="decodeStrings">Décoder strings</label>
+                                </div>
+                                <div class="obfuscation-option-item">
+                                    <input type="checkbox" id="renameVars" checked>
+                                    <label for="renameVars">Renommer variables</label>
+                                </div>
+                                <div class="obfuscation-option-item">
+                                    <input type="checkbox" id="removeDead" checked>
+                                    <label for="removeDead">Supprimer code mort</label>
+                                </div>
+                                <div class="obfuscation-option-item">
+                                    <input type="checkbox" id="removeProtections" checked>
+                                    <label for="removeProtections">Supprimer protections</label>
+                                </div>
+                                <div class="obfuscation-option-item">
+                                    <input type="checkbox" id="format" checked>
+                                    <label for="format">Formater</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="obfuscation-button-group">
+                            <button class="obfuscation-btn obfuscation-btn-primary" onclick="deobfuscateCode()">🔓 Désobfusquer</button>
+                            <button class="obfuscation-btn obfuscation-btn-secondary" onclick="clearDeobfuscate()">🗑️ Effacer</button>
+                        </div>
+
+                        <div id="deobfuscateInputStats" class="obfuscation-stats">
+                            Caractères: 0 | Lignes: 0
+                        </div>
+                    </div>
+
+                    <!-- Panel droit: Code désobfusqué -->
+                    <div class="obfuscation-panel">
+                        <h4>📄 Code désobfusqué</h4>
+                        <textarea id="deobfuscateOutput" class="obfuscation-textarea" placeholder="Résultat de la désobfuscation..." readonly></textarea>
+                        
+                        <div class="obfuscation-button-group">
+                            <button class="obfuscation-btn obfuscation-btn-primary" onclick="copyDeobfuscated()">📋 Copier</button>
+                            <button class="obfuscation-btn obfuscation-btn-secondary" onclick="downloadDeobfuscated()">⬇ Télécharger</button>
+                        </div>
+
+                        <div id="deobfuscateOutputStats" class="obfuscation-stats">
+                            Caractères: 0 | Lignes: 0
+                        </div>
+                    </div>
+                </div>
+
+                <div class="deobfuscation-info">
+                    <strong>💡 Astuce :</strong> Essayez différentes combinaisons d'options pour de meilleurs résultats !
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal pour voir l'original (obfuscation) -->
+        <div id="originalModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>📜 Code original</h2>
+                    <button class="modal-close" onclick="closeModal()">✕</button>
+                </div>
+                <pre id="originalCodeDisplay" class="original-code"></pre>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div>⌘ KNUT OBFUSCATOR © 2026 - <a href="https://wa.me/237673941535" target="_blank">Contact WhatsApp</a> ⌘</div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="obfuscation.js"></script>
+    <script src="desobfusque.js"></script>
+    
+    <script>
+        // ========== VARIABLES GLOBALES ==========
+        let originalObfuscateCode = '';
+
+        // ========== NAVIGATION ==========
+        function showPage(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            document.getElementById(page + '-page').classList.add('active');
+            
+            // Activer le lien correspondant
+            const links = document.querySelectorAll('.nav-link');
+            if (page === 'home') links[0].classList.add('active');
+            else if (page === 'formations') links[1].classList.add('active');
+            else if (page === 'ventes') links[2].classList.add('active');
+            else if (page === 'securite') links[3].classList.add('active');
+        }
+
+        // ========== FONCTIONS OBFUSCATION ==========
+        function updateObfuscateStats() {
+            const input = document.getElementById('obfuscateInput');
+            const inputStats = document.getElementById('obfuscateInputStats');
+            const output = document.getElementById('obfuscateOutput');
+            const outputStats = document.getElementById('obfuscateOutputStats');
+            
+            if (input && inputStats) {
+                const text = input.value;
+                inputStats.innerHTML = `Caractères: ${text.length} | Lignes: ${text.split('\n').length}`;
+            }
+            
+            if (output && outputStats) {
+                const text = output.value;
+                outputStats.innerHTML = `Caractères: ${text.length} | Lignes: ${text.split('\n').length}`;
+            }
+        }
+
+        function obfuscateCode() {
+            const input = document.getElementById('obfuscateInput');
+            const output = document.getElementById('obfuscateOutput');
+            
+            if (!input.value.trim()) {
+                alert('Veuillez entrer du code à obfusquer');
+                return;
+            }
+            
+            originalObfuscateCode = input.value;
+            
+            if (window.obfuscator) {
+                // Utiliser le moteur d'obfuscation
+                const options = {
+                    compact: document.getElementById('compact').checked,
+                    selfDefending: document.getElementById('selfDefending').checked,
+                    stringArray: document.getElementById('stringArray').checked,
+                    debugProtection: document.getElementById('debugProtection').checked,
+                    disableConsole: document.getElementById('disableConsole').checked,
+                    unicodeEscape: document.getElementById('unicodeEscape').checked
+                };
+                
+                output.value = window.obfuscator.obfuscateJavaScript(input.value, options);
+            } else {
+                // Fallback simple
+                output.value = input.value.replace(/\s+/g, ' ').trim();
+            }
+            
+            updateObfuscateStats();
+        }
+
+        function clearObfuscate() {
+            document.getElementById('obfuscateInput').value = '';
+            document.getElementById('obfuscateOutput').value = '';
+            originalObfuscateCode = '';
+            updateObfuscateStats();
+        }
+
+        function copyObfuscated() {
+            const output = document.getElementById('obfuscateOutput');
+            output.select();
+            document.execCommand('copy');
+            alert('Code copié !');
+        }
+
+        function downloadObfuscated() {
+            const output = document.getElementById('obfuscateOutput');
+            const blob = new Blob([output.value], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'obfuscated.js';
+            a.click();
+        }
+
+        function showOriginalObfuscate() {
+            if (!originalObfuscateCode) {
+                alert('Aucun code original disponible');
+                return;
+            }
+            document.getElementById('originalCodeDisplay').textContent = originalObfuscateCode;
+            document.getElementById('originalModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('originalModal').classList.remove('active');
+        }
+
+        // ========== FONCTIONS DÉSOBFUSCATION ==========
+        function updateDeobfuscateStats() {
+            const input = document.getElementById('deobfuscateInput');
+            const inputStats = document.getElementById('deobfuscateInputStats');
+            const output = document.getElementById('deobfuscateOutput');
+            const outputStats = document.getElementById('deobfuscateOutputStats');
+            
+            if (input && inputStats) {
+                const text = input.value;
+                inputStats.innerHTML = `Caractères: ${text.length} | Lignes: ${text.split('\n').length}`;
+            }
+            
+            if (output && outputStats) {
+                const text = output.value;
+                outputStats.innerHTML = `Caractères: ${text.length} | Lignes: ${text.split('\n').length}`;
+            }
+        }
+
+        function deobfuscateCode() {
+            const input = document.getElementById('deobfuscateInput');
+            const output = document.getElementById('deobfuscateOutput');
+            
+            if (!input.value.trim()) {
+                alert('Veuillez entrer du code à désobfusquer');
+                return;
+            }
+            
+            if (window.deobfuscator) {
+                // Utiliser le moteur de désobfuscation
+                const options = {
+                    beautify: document.getElementById('beautify').checked,
+                    decodeStrings: document.getElementById('decodeStrings').checked,
+                    renameVariables: document.getElementById('renameVars').checked,
+                    removeDeadCode: document.getElementById('removeDead').checked,
+                    removeProtections: document.getElementById('removeProtections').checked,
+                    formatCode: document.getElementById('format').checked
+                };
+                
+                output.value = window.deobfuscator.deobfuscateJavaScript(input.value, options);
+            } else {
+                // Fallback simple
+                output.value = input.value;
+            }
+            
+            updateDeobfuscateStats();
+        }
+
+        function clearDeobfuscate() {
+            document.getElementById('deobfuscateInput').value = '';
+            document.getElementById('deobfuscateOutput').value = '';
+            updateDeobfuscateStats();
+        }
+
+        function copyDeobfuscated() {
+            const output = document.getElementById('deobfuscateOutput');
+            output.select();
+            document.execCommand('copy');
+            alert('Code copié !');
+        }
+
+        function downloadDeobfuscated() {
+            const output = document.getElementById('deobfuscateOutput');
+            const blob = new Blob([output.value], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'deobfuscated.js';
+            a.click();
+        }
+
+        // ========== GESTION UPLOAD FICHIERS ==========
+        document.getElementById('obfuscateFileInput')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('obfuscateInput').value = e.target.result;
+                    updateObfuscateStats();
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        document.getElementById('deobfuscateFileInput')?.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('deobfuscateInput').value = e.target.result;
+                    updateDeobfuscateStats();
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // ========== GESTION DE L'IMAGE ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            const img = document.querySelector('.profile-image img');
+            if (img) {
+                img.onerror = function() {
+                    this.style.display = 'none';
+                    this.parentElement.innerHTML = '<div class="profile-image-placeholder">K</div>';
+                };
+            }
+        });
+
+        // Écouteurs pour les stats
+        document.getElementById('obfuscateInput')?.addEventListener('input', updateObfuscateStats);
+        document.getElementById('deobfuscateInput')?.addEventListener('input', updateDeobfuscateStats);
+    </script>
+</body>
+</html>
